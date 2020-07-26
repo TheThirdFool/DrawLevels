@@ -10,9 +10,12 @@ setuptools.setup(
 	packages=['DrawLevels'] ,
 	author="TheThirdFool",
 	author_email="danielfh.dfh@gmail.com",
+	url = "https://github.com/TheThirdFool/DrawLevels",
 	description="A package for quickly generating simple nuclear level schemes.",
 	long_description=long_description,
 	long_description_content_type="text/markdown",
+	install_requires=['pycairo'],
+	keywords="Nuclear Physics Level Scheme",
 	#packages=setuptools.find_packages(),
 	classifiers=[
 	    "Programming Language :: Python :: 3",
