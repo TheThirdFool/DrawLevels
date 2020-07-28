@@ -41,5 +41,6 @@ Then can be run with:
 
 	python3 Example.py
 
+More usage tips can be found on the GitHub wiki.
 
 Thanks for using my maiden package! Enjoy!

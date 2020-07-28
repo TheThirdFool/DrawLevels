@@ -37,7 +37,7 @@ def DrawTransition(surface, x1, x2, y1, y2, colour, width, label, fs):
 	
 	return ctx
 
-def DrawLevel(surface, Energy, x1, x2, colour, width, label, fs):
+def DrawLevel(surface, Energy, x1, x2, colour, width, label, fs, pos):
 	ctx = cairo.Context(surface)
 	arrow_length = abs(x1 - x2)
 
@@ -55,7 +55,10 @@ def DrawLevel(surface, Energy, x1, x2, colour, width, label, fs):
 	ctx.set_font_size(fs)
 	x_off, y_off, tw, th = ctx.text_extents(label)[:4]
 
-	ctx.move_to(x2 - tw, Energy - width) # move to center of canvas
+	if pos == "b":
+		ctx.move_to(x2 - tw, Energy + width + th) # move to center of canvas	
+	else:
+		ctx.move_to(x2 - tw, Energy - width) # move to center of canvas
 
 	ctx.show_text(label)
 
@@ -76,6 +79,7 @@ class Branch:
 
 class Level:
   branches = []
+  Position = "a"
   def __init__(self, Energy, Colour, Width):
     self.Energy = Energy
     self.Colour = Colour
@@ -123,9 +127,6 @@ class Scheme:
 
   def Draw(self, Filename):
     HEIGHT = 0
-    for L in self.Levels:
-      if L.Energy > HEIGHT:
-        HEIGHT = L.Energy
 
     if HEIGHT == 0 and self.BranchNo != 0:
       for L in self.Levels:
@@ -133,6 +134,10 @@ class Scheme:
           for BL in B.b_levels:
             if BL.Energy > HEIGHT:
               HEIGHT = BL.Energy
+    for L in self.Levels:
+      if L.Energy > HEIGHT:
+        HEIGHT = L.Energy
+
  
     x  = 0.2 * self.WIDTH
     if(len(self.Transitions) != 0):
@@ -156,17 +161,18 @@ class Scheme:
 	#=========== DRAW LEVELS ============
     for L in self.Levels:
         b_count = 1 
-        if len(self.Levels) <= 1:
+        if len(self.Transitions) <= 1:
             b_count = 0
-        ctx = DrawLevel(surface, HEIGHT - L.Energy, 0.1 * self.WIDTH, self.WIDTH - 0.1 * self.WIDTH, L.Colour, L.Width, L.Label, self.FontSize)
+        ctx = DrawLevel(surface, HEIGHT - L.Energy, 0.1 * self.WIDTH, self.WIDTH - 0.1 * self.WIDTH, L.Colour, L.Width, L.Label, self.FontSize, L.Position)
         if(self.BranchNo != 0):
             for B in L.branches:
-                bx = 0.1 * self.WIDTH + b_count * (0.8 * self.WIDTH / self.BranchNo) + (0.8 * 0.1 * self.WIDTH / self.BranchNo) - B.Offset 
+                bx = 0.1 * self.WIDTH + b_count * (0.8 * self.WIDTH / self.BranchNo) + (0.8 * 0.1 * self.WIDTH / self.BranchNo) 
                 dx2 = (0.8 * 0.8 * self.WIDTH / self.BranchNo) / len(B.b_transitions)
                 for BL in B.b_levels:
-                    ctx = DrawLevel(surface, HEIGHT - BL.Energy, 0.1 * self.WIDTH + b_count * (0.8 * self.WIDTH / self.BranchNo) - B.Offset,
+                    ctx = DrawLevel(surface, HEIGHT - BL.Energy, 0.1 * self.WIDTH + b_count * (0.8 * self.WIDTH / self.BranchNo),
                                              self.WIDTH - 0.1 * self.WIDTH - (self.BranchNo - b_count - 1) * (0.8 * self.WIDTH / self.BranchNo),
-                                             BL.Colour, BL.Width, BL.Label, self.FontSize)
+                                             BL.Colour, BL.Width, BL.Label, self.FontSize, BL.Position)
+                bx = bx - B.Offset
                 for BT in B.b_transitions:
                     ctx = DrawTransition(surface, bx, bx, HEIGHT - BT.Start, HEIGHT - BT.End, BT.Colour, BT.Width, BT.Label, self.FontSize)
                     bx = bx + dx2
