@@ -33,4 +33,13 @@ in a 'branch' where the levels don't span the entire scheme. Example2.py shows t
 this time both the real and fake transtions are in seperate branches with only the ground level spanning
 the whole diagram.
 
+The python code must include the line:
+
+	include DrawLevels
+
+Then can be run with:
+
+	python3 Example.py
+
+
 Thanks for using my maiden package! Enjoy!
