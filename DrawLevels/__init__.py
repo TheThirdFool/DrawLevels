@@ -126,6 +126,13 @@ class Scheme:
     for L in self.Levels:
       if L.Energy > HEIGHT:
         HEIGHT = L.Energy
+
+    if HEIGHT == 0 and self.BranchNo != 0:
+      for L in self.Levels:
+        for B in L.branches:
+          for BL in B.b_levels:
+            if BL.Energy > HEIGHT:
+              HEIGHT = BL.Energy
  
     x  = 0.2 * self.WIDTH
     if(len(self.Transitions) != 0):
@@ -149,6 +156,8 @@ class Scheme:
 	#=========== DRAW LEVELS ============
     for L in self.Levels:
         b_count = 1 
+        if len(self.Levels) <= 1:
+            b_count = 0
         ctx = DrawLevel(surface, HEIGHT - L.Energy, 0.1 * self.WIDTH, self.WIDTH - 0.1 * self.WIDTH, L.Colour, L.Width, L.Label, self.FontSize)
         if(self.BranchNo != 0):
             for B in L.branches:
