@@ -128,15 +128,17 @@ class Scheme:
   def Draw(self, Filename):
     HEIGHT = 0
 
-    if HEIGHT == 0 and self.BranchNo != 0:
+    if self.BranchNo != 0:
       for L in self.Levels:
         for B in L.branches:
           for BL in B.b_levels:
             if BL.Energy > HEIGHT:
               HEIGHT = BL.Energy
-    for L in self.Levels:
-      if L.Energy > HEIGHT:
-        HEIGHT = L.Energy
+
+    if HEIGHT == 0:
+      for L in self.Levels:
+        if L.Energy > HEIGHT:
+          HEIGHT = L.Energy
 
  
     x  = 0.2 * self.WIDTH
