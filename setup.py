@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
 	name='DrawLevels',  
-	version='0.2.11',
+	version='0.2.12',
 	packages=['DrawLevels'] ,
 	author="TheThirdFool",
 	author_email="danielfh.dfh@gmail.com",

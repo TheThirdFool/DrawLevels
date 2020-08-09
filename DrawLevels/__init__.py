@@ -41,6 +41,18 @@ def DrawLevel(surface, Energy, x1, x2, colour, width, label, fs, pos):
 	ctx = cairo.Context(surface)
 	arrow_length = abs(x1 - x2)
 
+
+	# Text stuff
+	ctx.set_source_rgb(colour[0], colour[1], colour[2])
+	ctx.select_font_face("Times",
+	        cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
+	ctx.set_font_size(fs)
+	x_off, y_off, tw, th = ctx.text_extents(label)[:4]
+
+	if pos == "l":
+		arrow_length = arrow_length - tw
+
+	# Draw Level
 	ctx.move_to(x1, Energy) # move to center of canvas
 
 	ctx.rel_line_to(arrow_length, 0)
@@ -49,14 +61,11 @@ def DrawLevel(surface, Energy, x1, x2, colour, width, label, fs, pos):
 	ctx.set_line_width(width)
 	ctx.stroke()
 
-	ctx.set_source_rgb(colour[0], colour[1], colour[2])
-	ctx.select_font_face("Times",
-	        cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
-	ctx.set_font_size(fs)
-	x_off, y_off, tw, th = ctx.text_extents(label)[:4]
-
+	# Draw text
 	if pos == "b":
 		ctx.move_to(x2 - tw, Energy + width + th) # move to center of canvas	
+	elif pos == "l":
+		ctx.move_to(x2 - tw, Energy + 0.5 * th - 0.5 * width) # move to center of canvas	
 	else:
 		ctx.move_to(x2 - tw, Energy - width) # move to center of canvas
 

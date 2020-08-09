@@ -22,6 +22,26 @@ If not automatically installed, this can also be installed using:
 	
 	pip install pycairo
 
+## Installation from source
+
+The slightly more complicated but more reliable method to install DrawLevels is to install 
+from source. While this sidesteps the convenience given by the package manager 'pip', it
+also avoids the problems it can cause. To install first clone the GitHub repository with:
+
+	git clone https://github.com/TheThirdFool/DrawLevels
+
+Then enter the folder:
+
+	cd DrawLevels
+
+Now you can use pip to build the package from source:
+
+	pip install .
+
+This has the advantage of being a surefire way of ensuring installation of the most up-to-date
+version of DrawLevels - as the GitHub is regularly updated. However, any further updates will
+require a full repeat of this process, rather than updating via pip. 
+
 Usage
 =====
 
